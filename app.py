@@ -12,7 +12,7 @@ def resolve():
     local = data.get('local')
     remote = data.get('remote')
 
-    if not base or not local or not remote:
+    if base is None or local is None or remote is None:
         return jsonify({'error': 'Missing input'}), 400
 
     try:
