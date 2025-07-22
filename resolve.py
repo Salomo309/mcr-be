@@ -86,7 +86,13 @@ def resolve_conflict(base: str, local: str, remote: str):
         }
     else:
         # Jika kompleks, pakai LLM generatif
-        prompt = f"<base>\n{base}\n<local>\n{local}\n<remote>\n{remote}"
+        prompt = (
+            "Given the following versions of code:\n\n"
+            f"<base>\n{base.strip()}\n\n"
+            f"<local>\n{local.strip()}\n\n"
+            f"<remote>\n{remote.strip()}\n\n"
+            "Please generate a merged version that resolves the conflict based on best practices and developer intent."
+        )
         inputs = tokenizer(prompt, return_tensors="pt", padding=True, truncation=True, max_length=512).to(device)
         with torch.no_grad():
             outputs = model_llm.generate(
